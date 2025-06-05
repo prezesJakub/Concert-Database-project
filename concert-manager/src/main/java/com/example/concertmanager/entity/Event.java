@@ -17,7 +17,14 @@ public class Event {
     @Column(length = 1000)
     private String description;
 
-    private String location;
+    @ManyToOne
+    @JoinColumn(name = "venue_id")
+    private Venue venue;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
@@ -27,12 +34,13 @@ public class Event {
 
     public Event() {}
 
-    public Event(String title, String description, String location,
-                 LocalDateTime startDate, LocalDateTime endDate,
-                 Organizer organizer) {
+    public Event(String title, String description, Venue venue,
+                 Category category, LocalDateTime startDate,
+                 LocalDateTime endDate, Organizer organizer) {
         this.title = title;
         this.description = description;
-        this.location = location;
+        this.venue = venue;
+        this.category = category;
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -55,11 +63,17 @@ public class Event {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getLocation() {
-        return location;
+    public Venue getVenue() {
+        return venue;
     }
-    public void setLocation(String location) {
-        this.location = location;
+    public void setVenue(Venue venue) {
+        this.venue = venue;
+    }
+    public Category getCategory() {
+        return category;
+    }
+    public void setCategory(Category category) {
+        this.category = category;
     }
     public LocalDateTime getStartDate() {
         return startDate;
