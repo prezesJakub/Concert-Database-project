@@ -20,10 +20,15 @@ public class Venue {
     private String description;
     private Integer capacity;
 
-    public Venue(String name, String description, Integer capacity) {
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
+    public Venue(String name, String description, Integer capacity, City city) {
         this.name = name;
         this.description = description;
         this.capacity = capacity;
+        this.city = city;
     }
 
     public Long getId() {
@@ -49,5 +54,11 @@ public class Venue {
     }
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+    public City getCity() {
+        return city;
+    }
+    public void setCity(City city) {
+        this.city = city;
     }
 }

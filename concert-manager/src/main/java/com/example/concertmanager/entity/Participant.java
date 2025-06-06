@@ -20,10 +20,15 @@ public class Participant {
     private String lastName;
     private String email;
 
-    public Participant(String firstName, String lastName, String email) {
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
+
+    public Participant(String firstName, String lastName, String email, Country country) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.country = country;
     }
 
     public Long getId() {
@@ -49,5 +54,11 @@ public class Participant {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+    public Country getCountry() {
+        return country;
+    }
+    public void setCountry(Country country) {
+        this.country = country;
     }
 }

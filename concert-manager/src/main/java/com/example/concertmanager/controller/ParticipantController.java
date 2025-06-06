@@ -1,6 +1,7 @@
 package com.example.concertmanager.controller;
 
 import com.example.concertmanager.entity.Participant;
+import com.example.concertmanager.repository.CountryRepository;
 import com.example.concertmanager.repository.ParticipantRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +14,12 @@ import java.util.Optional;
 public class ParticipantController {
 
     private final ParticipantRepository participantRepository;
+    private final CountryRepository countryRepository;
 
-    public ParticipantController(ParticipantRepository participantRepository) {
+    public ParticipantController(ParticipantRepository participantRepository,
+                                 CountryRepository countryRepository) {
         this.participantRepository = participantRepository;
+        this.countryRepository = countryRepository;
     }
 
     @GetMapping
@@ -31,8 +35,16 @@ public class ParticipantController {
     }
 
     @PostMapping
-    public Participant createParticipant(@RequestBody Participant participant) {
-        return participantRepository.save(participant);
+    public ResponseEntity<Participant> createParticipant(@RequestBody Participant participant) {
+        if(participant.getCountry() != null && participant.getCountry().getId() != null) {
+            return countryRepository.findById(participant.getCountry().getId())
+                    .map(country -> {
+                        participant.setCountry(country);
+                        return ResponseEntity.ok(participantRepository.save(participant));
+                    })
+                    .orElse(ResponseEntity.badRequest().build());
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/{id}")
