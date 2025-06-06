@@ -24,14 +24,19 @@ public class Ticket {
     @JoinColumn(name = "participant_id", nullable = false)
     private Participant participant;
 
+    @ManyToOne
+    @JoinColumn(name = "seat_id")
+    private Seat seat;
+
     @Enumerated(EnumType.STRING)
     private TicketType type;
 
     private Double price;
 
-    public Ticket(Event event, Participant participant, TicketType type, Double price) {
+    public Ticket(Event event, Participant participant, Seat seat, TicketType type, Double price) {
         this.event = event;
         this.participant = participant;
+        this.seat = seat;
         this.type = type;
         this.price = price;
     }
@@ -53,6 +58,12 @@ public class Ticket {
     }
     public void setParticipant(Participant participant) {
         this.participant = participant;
+    }
+    public Seat getSeat() {
+        return seat;
+    }
+    public void setSeat(Seat seat) {
+        this.seat = seat;
     }
     public TicketType getType() {
         return type;
