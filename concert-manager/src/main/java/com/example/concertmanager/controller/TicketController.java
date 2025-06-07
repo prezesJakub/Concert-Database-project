@@ -1,13 +1,12 @@
 package com.example.concertmanager.controller;
 
-import com.example.concertmanager.entity.Event;
-import com.example.concertmanager.entity.Participant;
-import com.example.concertmanager.entity.Seat;
-import com.example.concertmanager.entity.Ticket;
+import com.example.concertmanager.entity.*;
 import com.example.concertmanager.repository.EventRepository;
 import com.example.concertmanager.repository.ParticipantRepository;
 import com.example.concertmanager.repository.SeatRepository;
 import com.example.concertmanager.repository.TicketRepository;
+import com.example.concertmanager.service.TicketService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +21,15 @@ public class TicketController {
     private final EventRepository eventRepository;
     private final ParticipantRepository participantRepository;
     private final SeatRepository seatRepository;
+    private final TicketService ticketService;
 
     public TicketController(TicketRepository ticketRepository, EventRepository eventRepository,
-                            ParticipantRepository participantRepository, SeatRepository seatRepository) {
+                            ParticipantRepository participantRepository, SeatRepository seatRepository, TicketService ticketService) {
         this.ticketRepository = ticketRepository;
         this.eventRepository = eventRepository;
         this.participantRepository = participantRepository;
         this.seatRepository = seatRepository;
+        this.ticketService = ticketService;
     }
 
     @GetMapping
@@ -72,6 +73,22 @@ public class TicketController {
 
         Ticket saved = ticketRepository.save(ticket);
         return ResponseEntity.ok(saved);
+    }
+
+    @PostMapping("/reserve")
+    public ResponseEntity<?> reserveTicket(@RequestParam Long participantId,
+                                           @RequestParam Long eventId,
+                                           @RequestParam Long seatId,
+                                           @RequestParam TicketType ticketType,
+                                           @RequestParam Double price) {
+        try {
+            Ticket ticket = ticketService.reserveSeat(participantId, eventId, seatId, ticketType, price);
+            return ResponseEntity.ok(ticket);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(409).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

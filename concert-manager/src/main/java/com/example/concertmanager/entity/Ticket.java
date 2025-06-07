@@ -33,6 +33,8 @@ public class Ticket {
 
     private Double price;
 
+    public Ticket() {}
+
     public Ticket(Event event, Participant participant, Seat seat, TicketType type, Double price) {
         this.event = event;
         this.participant = participant;
