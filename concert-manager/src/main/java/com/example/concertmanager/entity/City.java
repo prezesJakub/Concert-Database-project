@@ -27,6 +27,8 @@ public class City {
         this.country = country;
     }
 
+    public City() {}
+
     public Long getId() {
         return id;
     }

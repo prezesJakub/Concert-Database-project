@@ -1,8 +1,10 @@
 package com.example.concertmanager.controller;
 
+import com.example.concertmanager.dto.ParticipantRequestDto;
 import com.example.concertmanager.entity.Participant;
 import com.example.concertmanager.repository.CountryRepository;
 import com.example.concertmanager.repository.ParticipantRepository;
+import com.example.concertmanager.service.ParticipantService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +16,12 @@ import java.util.Optional;
 public class ParticipantController {
 
     private final ParticipantRepository participantRepository;
-    private final CountryRepository countryRepository;
+    private final ParticipantService participantService;
 
     public ParticipantController(ParticipantRepository participantRepository,
-                                 CountryRepository countryRepository) {
+                                 ParticipantService participantService) {
         this.participantRepository = participantRepository;
-        this.countryRepository = countryRepository;
+        this.participantService = participantService;
     }
 
     @GetMapping
@@ -35,16 +37,9 @@ public class ParticipantController {
     }
 
     @PostMapping
-    public ResponseEntity<Participant> createParticipant(@RequestBody Participant participant) {
-        if(participant.getCountry() != null && participant.getCountry().getId() != null) {
-            return countryRepository.findById(participant.getCountry().getId())
-                    .map(country -> {
-                        participant.setCountry(country);
-                        return ResponseEntity.ok(participantRepository.save(participant));
-                    })
-                    .orElse(ResponseEntity.badRequest().build());
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<Participant> createParticipant(@RequestBody ParticipantRequestDto dto) {
+        Participant participant = participantService.createParticipant(dto);
+        return ResponseEntity.ok(participant);
     }
 
     @PutMapping("/{id}")

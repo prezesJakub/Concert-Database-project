@@ -31,6 +31,8 @@ public class Participant {
         this.country = country;
     }
 
+    public Participant() {}
+
     public Long getId() {
         return id;
     }

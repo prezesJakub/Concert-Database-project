@@ -1,8 +1,11 @@
 package com.example.concertmanager.controller;
 
+import com.example.concertmanager.dto.VenueRequestDto;
 import com.example.concertmanager.entity.Venue;
 import com.example.concertmanager.repository.CityRepository;
+import com.example.concertmanager.repository.CountryRepository;
 import com.example.concertmanager.repository.VenueRepository;
+import com.example.concertmanager.service.VenueService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +17,13 @@ public class VenueController {
 
     private final VenueRepository venueRepository;
     private final CityRepository cityRepository;
+    private final VenueService venueService;
 
-    public VenueController(VenueRepository venueRepository, CityRepository cityRepository) {
+    public VenueController(VenueRepository venueRepository, CityRepository cityRepository,
+                           VenueService venueService) {
         this.venueRepository = venueRepository;
         this.cityRepository = cityRepository;
+        this.venueService = venueService;
     }
 
     @GetMapping
@@ -33,16 +39,9 @@ public class VenueController {
     }
 
     @PostMapping
-    public ResponseEntity<Venue> createVenue(@RequestBody Venue venue) {
-        if(venue.getCity() != null && venue.getCity().getId() != null) {
-            return cityRepository.findById(venue.getCity().getId())
-                    .map(city -> {
-                        venue.setCity(city);
-                        return ResponseEntity.ok(venueRepository.save(venue));
-                    })
-                    .orElse(ResponseEntity.badRequest().build());
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<Venue> createVenue(@RequestBody VenueRequestDto dto) {
+        Venue venue = venueService.createVenue(dto);
+        return ResponseEntity.ok(venue);
     }
 
     @DeleteMapping("/{id}")
