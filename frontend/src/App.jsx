@@ -9,6 +9,7 @@ import TicketsPage from './pages/TicketsPage';
 import ReserveTicketPage from './pages/ReserveTicketPage';
 import AddVenuePage from './pages/AddVenuePage';
 import AddEventPage from './pages/AddEventPage';
+import AddOrganizerForm from './components/AddOrganizerForm';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/reserve" element={<ReserveTicketPage />} />
           <Route path="/add-venue" element={<AddVenuePage />} />
           <Route path="/add-event" element={<AddEventPage />} />
+          <Route path="/add-organizer" element={<AddOrganizerForm />} />
         </Routes>
       </Router>
     </div>
