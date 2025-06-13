@@ -43,6 +43,7 @@ public class Event {
         this.category = category;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.organizer = organizer;
     }
 
     public Long getId() {
