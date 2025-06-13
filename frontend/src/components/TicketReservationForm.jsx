@@ -4,7 +4,8 @@ import "../App.css";
 const TicketReservationForm = () => {
     const [participants, setParticipants] = useState([]);
     const [events, setEvents] = useState([]);
-    const [seats, setSeats] = useState([]);
+    const [allSeats, setAllSeats] = useState([]);
+    const [filteredSeats, setFilteredSeats] = useState([]);
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -28,12 +29,31 @@ const TicketReservationForm = () => {
 
         fetch("http://localhost:8080/api/seats")
             .then(res => res.json())
-            .then(data => Array.isArray(data) ? setSeats(data) : setSeats([]))
+            .then(data => Array.isArray(data) ? setAllSeats(data) : setAllSeats([]))
             .catch(err => {
                 console.error("Błąd podczas pobierania miejsc:", err);
-                setSeats([]);
+                setAllSeats([]);
             });
     }, []);
+
+    useEffect(() => {
+        if(!formData.eventId) {
+            setFilteredSeats([]);
+            return;
+        }
+
+        const selectedEvent = events.find(e => e.id.toString() === formData.eventId);
+        if(!selectedEvent || !selectedEvent.venue || !selectedEvent.venue.id) {
+            setFilteredSeats([]);
+            return;
+        }
+
+        const venueId = selectedEvent.venue.id;
+        const matchingSeats = allSeats.filter(seat =>
+            seat.venueId === venueId
+        );
+        setFilteredSeats(matchingSeats);
+    }, [formData.eventId, events, allSeats]);
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -67,6 +87,7 @@ const TicketReservationForm = () => {
                     ticketType: "REGULAR",
                     price: ""
                 });
+                setFilteredSeats([]);
             } else {
                 const errorText = await response.text();
                 setMessage(`Błąd: ${errorText}`);
@@ -112,7 +133,7 @@ const TicketReservationForm = () => {
                     <label>Miejsce:</label>
                     <select name="seatId" value={formData.seatId} onChange={handleChange} required>
                         <option value="">-- wybierz --</option>
-                        {seats.map(s => (
+                        {filteredSeats.map(s => (
                             <option key={s.id} value={s.id}>
                                 Sektor {s.section}, Rząd {s.row}, Miejsce {s.seatNumber} 
                             </option>
