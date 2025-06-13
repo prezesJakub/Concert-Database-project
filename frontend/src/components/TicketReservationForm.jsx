@@ -28,7 +28,11 @@ const TicketReservationForm = () => {
 
         fetch("http://localhost:8080/api/seats")
             .then(res => res.json())
-            .then(data => setSeats(data));
+            .then(data => Array.isArray(data) ? setSeats(data) : setSeats([]))
+            .catch(err => {
+                console.error("Błąd podczas pobierania miejsc:", err);
+                setSeats([]);
+            });
     }, []);
 
     const handleChange = e => {
@@ -109,7 +113,9 @@ const TicketReservationForm = () => {
                     <select name="seatId" value={formData.seatId} onChange={handleChange} required>
                         <option value="">-- wybierz --</option>
                         {seats.map(s => (
-                            <option key={s.id} value={s.id}>Sektor {s.section}, Rząd {s.row}, Miejsce {s.seatNumber} </option>
+                            <option key={s.id} value={s.id}>
+                                Sektor {s.section}, Rząd {s.row}, Miejsce {s.seatNumber} 
+                            </option>
                         ))}
                     </select>
                 </div>

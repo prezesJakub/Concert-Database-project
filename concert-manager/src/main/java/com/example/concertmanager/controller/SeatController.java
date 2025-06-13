@@ -1,5 +1,6 @@
 package com.example.concertmanager.controller;
 
+import com.example.concertmanager.dto.SeatDto;
 import com.example.concertmanager.entity.Seat;
 import com.example.concertmanager.entity.Venue;
 import com.example.concertmanager.repository.SeatRepository;
@@ -23,19 +24,19 @@ public class SeatController {
     }
 
     @GetMapping
-    public List<Seat> getAllSeats() {
-        return seatRepository.findAll();
+    public List<SeatDto> getAllSeats() {
+        return seatRepository.findAll().stream().map(SeatDto::new).toList();
     }
 
     @GetMapping("/venue/{venueId}")
-    public List<Seat> getSeatsByVenue(@PathVariable Long venueId) {
-        return seatRepository.findByVenueId(venueId);
+    public List<SeatDto> getSeatsByVenue(@PathVariable Long venueId) {
+        return seatRepository.findByVenueId(venueId).stream().map(SeatDto::new).toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Seat> getSeatById(@PathVariable Long id) {
+    public ResponseEntity<SeatDto> getSeatById(@PathVariable Long id) {
         return seatRepository.findById(id)
-                .map(ResponseEntity::ok)
+                .map(seat -> ResponseEntity.ok(new SeatDto(seat)))
                 .orElse(ResponseEntity.notFound().build());
     }
 

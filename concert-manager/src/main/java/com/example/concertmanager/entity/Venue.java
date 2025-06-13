@@ -31,6 +31,8 @@ public class Venue {
         this.city = city;
     }
 
+    public Venue() {}
+
     public Long getId() {
         return id;
     }

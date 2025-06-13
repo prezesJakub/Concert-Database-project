@@ -38,6 +38,8 @@ public class Seat {
         this.venue = venue;
     }
 
+    public Seat() {}
+
     public Long getId() {
         return id;
     }
