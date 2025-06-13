@@ -1,5 +1,6 @@
 package com.example.concertmanager.controller;
 
+import com.example.concertmanager.dto.TicketReservationRequestDto;
 import com.example.concertmanager.entity.*;
 import com.example.concertmanager.repository.EventRepository;
 import com.example.concertmanager.repository.ParticipantRepository;
@@ -76,13 +77,9 @@ public class TicketController {
     }
 
     @PostMapping("/reserve")
-    public ResponseEntity<?> reserveTicket(@RequestParam Long participantId,
-                                           @RequestParam Long eventId,
-                                           @RequestParam Long seatId,
-                                           @RequestParam TicketType ticketType,
-                                           @RequestParam Double price) {
+    public ResponseEntity<?> reserveTicket(@RequestBody TicketReservationRequestDto dto) {
         try {
-            Ticket ticket = ticketService.reserveSeat(participantId, eventId, seatId, ticketType, price);
+            Ticket ticket = ticketService.reserveSeatWithParticipantData(dto);
             return ResponseEntity.ok(ticket);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).body(e.getMessage());

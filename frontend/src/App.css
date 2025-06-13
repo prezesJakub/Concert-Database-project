@@ -38,3 +38,60 @@ h1 {
 .data-table tr:hover {
     background-color: #f1f1f1;
 }
+
+.ticket-form-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.ticket-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+.ticket-form-container form > div {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ticket-form-container label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.ticket-form-container select,
+.ticket-form-container input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.ticket-form-container button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.ticket-form-container button:hover {
+    background-color: #0056b3;
+}
+
+.ticket-form-container p {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
