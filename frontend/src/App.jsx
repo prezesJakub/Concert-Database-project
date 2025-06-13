@@ -8,6 +8,7 @@ import VenuesPage from './pages/VenuesPage';
 import TicketsPage from './pages/TicketsPage';
 import ReserveTicketPage from './pages/ReserveTicketPage';
 import AddVenuePage from './pages/AddVenuePage';
+import AddEventPage from './pages/AddEventPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/tickets" element={<TicketsPage />} />
           <Route path="/reserve" element={<ReserveTicketPage />} />
           <Route path="/add-venue" element={<AddVenuePage />} />
+          <Route path="/add-event" element={<AddEventPage />} />
         </Routes>
       </Router>
     </div>
