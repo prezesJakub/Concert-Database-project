@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React from "react";
 import './App.css';
+import Navbar from './components/Navbar';
 import EventsPage from "./pages/EventsPage";
 import OrganizersPage from './pages/OrganizersPage';
 import ParticipantsPage from './pages/ParticipantsPage';
@@ -19,6 +20,7 @@ function App() {
     <div>
       <h1>Concert Manager</h1>
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/events" element={<EventsPage />} />
           <Route path="/organizers" element={<OrganizersPage />} />

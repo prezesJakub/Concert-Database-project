@@ -28,7 +28,13 @@ export default function EventList() {
                     <tr key={event.id}>
                         <td>{event.title}</td>
                         <td>{event.organizer.name}</td>
-                        <td>{event.startDate}</td>
+                        <td>{new Date(event.startDate).toLocaleString('pl-PL', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}</td>
                         <td>{event.venue?.name}</td>
                         <td>{event.category.name}</td>
                         <td>{event.description}</td>
