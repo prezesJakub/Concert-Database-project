@@ -73,6 +73,9 @@ public class EventController {
         event.setOrganizer(organizer.get());
         event.setVenue(venueOpt.get());
         event.setCategory(categoryOpt.get());
+        event.setRegularPrice(event.getRegularPrice());
+        event.setStudentPrice(event.getStudentPrice());
+        event.setVipPrice(event.getVipPrice());
 
         Event saved = eventRepository.save(event);
         return ResponseEntity.ok(saved);
@@ -86,6 +89,9 @@ public class EventController {
                     existing.setDescription(updated.getDescription());
                     existing.setStartDate(updated.getStartDate());
                     existing.setEndDate(updated.getEndDate());
+                    existing.setRegularPrice(updated.getRegularPrice());
+                    existing.setStudentPrice(updated.getStudentPrice());
+                    existing.setVipPrice(updated.getVipPrice());
 
                     if(updated.getOrganizer() != null && updated.getOrganizer().getId() != null) {
                         organizerRepository.findById(updated.getOrganizer().getId())

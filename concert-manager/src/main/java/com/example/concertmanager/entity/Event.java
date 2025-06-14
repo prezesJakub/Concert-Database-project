@@ -32,11 +32,21 @@ public class Event {
     @JoinColumn(name = "organizer_id")
     private Organizer organizer;
 
+    @Column(name = "regular_price")
+    private Double regularPrice;
+
+    @Column(name = "student_price")
+    private Double studentPrice;
+
+    @Column(name = "vip_price")
+    private Double vipPrice;
+
     public Event() {}
 
     public Event(String title, String description, Venue venue,
                  Category category, LocalDateTime startDate,
-                 LocalDateTime endDate, Organizer organizer) {
+                 LocalDateTime endDate, Organizer organizer,
+                 Double regularPrice, Double studentPrice, Double vipPrice) {
         this.title = title;
         this.description = description;
         this.venue = venue;
@@ -44,6 +54,9 @@ public class Event {
         this.startDate = startDate;
         this.endDate = endDate;
         this.organizer = organizer;
+        this.regularPrice = regularPrice;
+        this.studentPrice = studentPrice;
+        this.vipPrice = vipPrice;
     }
 
     public Long getId() {
@@ -93,5 +106,23 @@ public class Event {
     }
     public void setOrganizer(Organizer organizer) {
         this.organizer = organizer;
+    }
+    public Double getRegularPrice() {
+        return regularPrice;
+    }
+    public void setRegularPrice(Double regularPrice) {
+        this.regularPrice = regularPrice;
+    }
+    public Double getStudentPrice() {
+        return studentPrice;
+    }
+    public void setStudentPrice(Double studentPrice) {
+        this.studentPrice = studentPrice;
+    }
+    public Double getVipPrice() {
+        return vipPrice;
+    }
+    public void setVipPrice(Double vipPrice) {
+        this.vipPrice = vipPrice;
     }
 }

@@ -15,16 +15,19 @@ public class TicketService {
     private final EventRepository eventRepository;
     private final SeatRepository seatRepository;
     private final CountryRepository countryRepository;
+    private final LocationService locationService;
 
     public TicketService(TicketRepository ticketRepository,
                          ParticipantRepository participantRepository,
                          EventRepository eventRepository,
-                         SeatRepository seatRepository, CountryRepository countryRepository) {
+                         SeatRepository seatRepository, CountryRepository countryRepository,
+                         LocationService locationService) {
         this.ticketRepository = ticketRepository;
         this.participantRepository = participantRepository;
         this.eventRepository = eventRepository;
         this.seatRepository = seatRepository;
         this.countryRepository = countryRepository;
+        this.locationService = locationService;
     }
 
     @Transactional
@@ -54,8 +57,7 @@ public class TicketService {
     }
 
     public Ticket reserveSeatWithParticipantData(TicketReservationRequestDto dto) {
-        Country country = countryRepository.findByNameIgnoreCase(dto.getCountryName())
-                .orElseThrow(() -> new EntityNotFoundException("Country not found"));
+        Country country = locationService.findOrCreateCountry(dto.getCountryName());
 
         Participant participant = participantRepository
                 .findByFirstNameAndLastNameAndEmailAndCountryName(

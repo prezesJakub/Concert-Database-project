@@ -21,6 +21,9 @@ export default function EventList() {
                     <th>Miejsce</th>
                     <th>Kategoria</th>  
                     <th>Opis</th>
+                    <th>Cena REGULAR</th>
+                    <th>Cena STUDENT</th>
+                    <th>Cena VIP</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +41,9 @@ export default function EventList() {
                         <td>{event.venue?.name}</td>
                         <td>{event.category.name}</td>
                         <td>{event.description}</td>
+                        <td>{event.regularPrice}</td>
+                        <td>{event.studentPrice}</td>
+                        <td>{event.vipPrice}</td>
                     </tr>
                 ))}
             </tbody>

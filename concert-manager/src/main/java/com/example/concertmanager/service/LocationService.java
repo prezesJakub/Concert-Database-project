@@ -18,8 +18,9 @@ public class LocationService {
     }
 
     public Country findOrCreateCountry(String name) {
-        return countryRepository.findByNameIgnoreCase(name)
-                .orElseGet(() -> countryRepository.save(new Country(name)));
+        String normalized = name.trim();
+        return countryRepository.findByNameIgnoreCase(normalized)
+                .orElseGet(() -> countryRepository.save(new Country(normalized)));
     }
 
     public City findOrCreateCity(String name, String countryName) {

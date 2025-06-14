@@ -2,6 +2,8 @@ package com.example.concertmanager.service;
 
 import com.example.concertmanager.entity.*;
 import com.example.concertmanager.repository.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 
 import java.time.LocalDateTime;
 
@@ -28,31 +31,35 @@ public class TicketServiceTest {
     @Autowired private CountryRepository countryRepository;
     @Autowired private CityRepository cityRepository;
 
-    private TicketService ticketService;
+    @Autowired private TicketService ticketService;
 
     private Event event;
     private Seat seat;
     private Participant participant;
 
     @BeforeEach
+    @Transactional
     public void setUp() {
-        ticketService = new TicketService(ticketRepository, participantRepository, eventRepository, seatRepository);
-
         Country country = countryRepository.save(new Country("Poland"));
         City city = cityRepository.save(new City("Warsaw", country));
         Venue venue = venueRepository.save(new Venue("Stadion Narodowy", "Duży stadion", 58000, city));
         Category category = categoryRepository.save(new Category("Koncert"));
         Organizer organizer = organizerRepository.save(new Organizer("Live Nation", "info@livenation.pl", "123456789"));
 
-        event = eventRepository.save(new Event(
+        event = new Event(
                 "Metallica Live",
                 "Koncert zespołu Metallica",
                 venue,
                 category,
                 LocalDateTime.now().plusDays(30),
                 LocalDateTime.now().plusDays(30).plusHours(2),
-                organizer
-        ));
+                organizer,
+                199.99,
+                149.99,
+                299.99
+        );
+
+        event = eventRepository.save(event);
 
         seat = seatRepository.save(new Seat("12", "A", "VIP", venue));
         participant = participantRepository.save(new Participant("Jan", "Kowalski", "jan.kowalski@example.com", country));
@@ -62,8 +69,8 @@ public class TicketServiceTest {
     @Transactional
     public void testSuccessfulTicketReservation() {
         Ticket ticket = ticketService.reserveSeat(
-                event.getId(),
                 participant.getId(),
+                event.getId(),
                 seat.getId(),
                 TicketType.REGULAR,
                 199.99
@@ -80,8 +87,8 @@ public class TicketServiceTest {
     @Transactional
     public void testDuplicateSeatReservationFails() {
         ticketService.reserveSeat(
-                event.getId(),
                 participant.getId(),
+                event.getId(),
                 seat.getId(),
                 TicketType.REGULAR,
                 199.99
@@ -89,8 +96,8 @@ public class TicketServiceTest {
 
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             ticketService.reserveSeat(
-                    event.getId(),
                     participant.getId(),
+                    event.getId(),
                     seat.getId(),
                     TicketType.REGULAR,
                     199.99

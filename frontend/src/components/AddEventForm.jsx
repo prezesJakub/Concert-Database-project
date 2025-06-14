@@ -10,6 +10,9 @@ const AddEventForm = () => {
         venueId: "",
         categoryId: "",
         organizerId: "",
+        regularPrice: "",
+        studentPrice: "",
+        vipPrice: "",
     });
 
     const [venues, setVenues] = useState([]);
@@ -52,6 +55,9 @@ const AddEventForm = () => {
             venue: { id: parseInt(formData.venueId) },
             category: { id: parseInt(formData.categoryId) },
             organizer: { id: parseInt(formData.organizerId) },
+            regularPrice: parseFloat(formData.regularPrice),
+            studentPrice: parseFloat(formData.studentPrice),
+            vipPrice: parseFloat(formData.vipPrice),
         };
 
         try {
@@ -71,6 +77,9 @@ const AddEventForm = () => {
                     venueId: "",
                     categoryId: "",
                     organizerId: "",
+                    regularPrice: "",
+                    studentPrice: "",
+                    vipPrice: "",
                 });
             } else {
                 const errorText = await response.text();
@@ -190,6 +199,51 @@ const AddEventForm = () => {
                             </option>
                         ))}
                     </select>
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Cena REGULAR:
+                    <input 
+                        type="number"
+                        name="regularPrice"
+                        value={formData.regularPrice}
+                        onChange={handleInputChange}
+                        step="0.01"
+                        min="0"
+                        required
+                    />
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Cena STUDENT:
+                    <input 
+                        type="number"
+                        name="studentPrice"
+                        value={formData.studentPrice}
+                        onChange={handleInputChange}
+                        step="0.01"
+                        min="0"
+                        required
+                    />
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Cena VIP:
+                    <input 
+                        type="number"
+                        name="vipPrice"
+                        value={formData.vipPrice}
+                        onChange={handleInputChange}
+                        step="0.01"
+                        min="0"
+                        required
+                    />
                 </label>
             </div>
 

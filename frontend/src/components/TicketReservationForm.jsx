@@ -55,6 +55,31 @@ const TicketReservationForm = () => {
         setFilteredSeats(matchingSeats);
     }, [formData.eventId, events, allSeats]);
 
+    useEffect(() => {
+        const selectedEvent = events.find(e => e.id.toString() === formData.eventId);
+        if (!selectedEvent) return;
+
+        let selectedPrice;
+        switch(formData.ticketType) {
+            case "REGULAR":
+                selectedPrice = selectedEvent.regularPrice;
+                break;
+            case "STUDENT":
+                selectedPrice = selectedEvent.studentPrice;
+                break;
+            case "VIP":
+                selectedPrice = selectedEvent.vipPrice;
+                break;
+            default:
+                selectedPrice = "";
+        }
+
+        setFormData(prev => ({
+            ...prev,
+            price: selectedPrice ?? ""
+        }));
+    }, [formData.eventId, formData.ticketType, events]);
+
     const handleChange = e => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -152,15 +177,7 @@ const TicketReservationForm = () => {
 
                 <div>
                     <label>Cena:</label>
-                    <input 
-                        type="number"
-                        name="price"
-                        value={formData.price}
-                        onChange={handleChange}
-                        required
-                        step="0.01"
-                        min="0"
-                    />
+                    <div className="price-display">{formData.price ? `${formData.price.toFixed(2)} zł` : "--"}</div>
                 </div>
 
                 <button type="submit">Rezerwuj</button>
