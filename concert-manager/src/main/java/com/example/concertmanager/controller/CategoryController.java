@@ -30,8 +30,11 @@ public class CategoryController {
     }
 
     @PostMapping
-    public Category createCategory(@RequestBody Category category) {
-        return categoryRepository.save(category);
+    public ResponseEntity<?> createCategory(@RequestBody Category category) {
+        if(categoryRepository.findByName(category.getName()).isPresent()) {
+            return ResponseEntity.badRequest().body("Category name already exists");
+        }
+        return ResponseEntity.ok(categoryRepository.save(category));
     }
 
     @DeleteMapping("/{id}")
