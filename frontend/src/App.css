@@ -199,3 +199,7 @@ h1 {
   font-weight: bold;
   cursor: pointer;
 }
+
+.price-display {
+    font-size: 1.5rem;
+}
