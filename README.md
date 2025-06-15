@@ -127,28 +127,28 @@ Po stronie frontendowej wybraliśmy React, ze względu na komponentową struktur
 
 ## Funkcje aplikacji
 
-- **Widok listy wydarzeń**
+- **Widok listy wydarzeń**  
 Wyświetla listę wszystkich wydarzeń wraz z informacjami o nich
-- **Widok listy organizatorów**
+- **Widok listy organizatorów**  
 Wyświetla listę wszystkich organizatorów wraz z informacjami o nich
-- **Widok listy uczestników**
+- **Widok listy uczestników**  
 Wyświetla listę wszystkich uczestników wraz z informacjami o nich
-- **Widok listy zarezerwowanych biletów**
+- **Widok listy zarezerwowanych biletów**  
 Wyświetla listę wszystkich zarezerwowanych biletów wraz z informacjami o rezerwacji
-- **Widok listy miejsc**
+- **Widok listy miejsc**  
 Wyświetla listę wszystkich lokalizacji, w których można zorganizować wydarzenie
-- **Raport popularności organizatorów**
+- **Raport popularności organizatorów**  
 Wyświetla zestawienie organizatorów z sumą sprzedanych biletów na ich wydarzenia
-- **Raport uczestników według kraju**
+- **Raport uczestników według kraju**  
 Wyświetla zestawienie krajów z liczbą uczestników z danego kraju, którzy kiedykolwiek kupowali bilet na jakieś wydarzenie
-- **Raport zapełnienia wydarzeń**
+- **Raport zapełnienia wydarzeń**  
 Wyświetla zestawienie wydarzeń wraz z liczbą sprzedanych biletów na nie i procentowym zapełnieniem miejsca
-- **Formularz dodawania nowego wydarzenia**
+- **Formularz dodawania nowego wydarzenia**  
 Pozwala dodać nowe wydarzenie
-- **Formularz dodawania nowego organizatora**
+- **Formularz dodawania nowego organizatora**  
 Pozwala dodać nowego organizatora
-- **Formularz dodawania nowego miejsca**
+- **Formularz dodawania nowego miejsca**  
 Pozwala dodać nową lokalizację, w której będzie można organizować wydarzenie
-- **Formularz rezerwacji biletu**
-Umożliwia rezerwację biletu
+- **Formularz rezerwacji biletu**  
+Umożliwia rezerwację biletu.  
 Operacja rezerwacji biletu jest operacją transakcyjną, nie jest możliwe zarezerwowanie miejsca, które zostało już zarezerwowane na dane wydarzenie. Przy wpisywaniu danych użytkownika, jeśli dany użytkownik już istnieje w bazie, wówczas system korzysta z jego ID, w przeciwnym razie tworzy się nowy użytkownik. Podobnie sytuacja wygląda z tworzeniem nowego miasta i kraju. Jeśli dane miasto już istnieje w bazie, wówczas pobiera jego ID. Tak samo wygląda to w przypadku dodawania nowego kraju, dzięki czemu kraje, miasta i uczestnicy nie duplikują się w bazie.
